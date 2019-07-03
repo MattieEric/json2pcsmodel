@@ -1,26 +1,25 @@
 {
   "name": "json2pcsmodel",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "",
   "main": "./dist/main.js",
   "scripts": {
     "build": "gulp && node .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/inquirer": "^6.0.3",
     "@types/fs-extra": "^8.0.0",
     "@types/node": "^12.0.10",
-    "chalk": "^2.4.2",
-    "commander": "^2.20.0",
     "gulp": "^4.0.2",
     "gulp-typescript": "^5.0.1",
-    "inquirer": "^6.4.1",
     "typescript": "^3.5.2"
   },
   "dependencies": {
-    "@types/inquirer": "^6.0.3",
+    "commander": "^2.20.0",
+    "inquirer": "^6.4.1",
+    "chalk": "^2.4.2",
     "fs-extra": "^8.1.0"
   },
   "bin": {

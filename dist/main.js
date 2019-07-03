@@ -44,7 +44,7 @@ var chalk_1 = require("chalk");
 var GeneratorModel_1 = require("./ModelGenerator/GeneratorModel");
 var path = require("path");
 program
-    .description('一款由json自动生成Picasso安全model文件的公具')
+    .description('一款由json自动生成Picasso安全model文件的工具')
     .option('-i, --inputFilePath [inputFilePath]', 'json文件路径')
     .option('-o, --outputFilePath [outputFilePath]', '生成model文件路径')
     .option('-r, --rootClassName [rootClassName]', 'model根数据结构名称')

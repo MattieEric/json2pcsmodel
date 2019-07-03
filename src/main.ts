@@ -8,7 +8,7 @@ import Generator from './ModelGenerator/GeneratorModel'
 import path = require('path')
 
 program
-    .description('一款由json自动生成Picasso安全model文件的工具')
+    .description('一款由json自动生成TS安全model文件的工具')
     .option('-i, --inputFilePath [inputFilePath]', 'json文件路径')
     .option('-o, --outputFilePath [outputFilePath]', '生成model文件路径')
     .option('-r, --rootClassName [rootClassName]', 'model根数据结构名称')

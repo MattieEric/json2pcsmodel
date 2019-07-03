@@ -1,5 +1,5 @@
 # json2pcsmodel
-一款由json自动生成Picasso安全model的工具
+一款由json自动生成TS Model的工具
 
 # 安装方式
 npm install -g @dp/json2pcsmodel

@@ -6,7 +6,7 @@ npm install -g @dp/json2pcsmodel
 
 # 使用方式
 ```
-->xxxx j2m -i data.json 
+j2m -i data.json 
 ```
 
 #### 可选参数

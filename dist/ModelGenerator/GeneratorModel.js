@@ -56,7 +56,7 @@ var Generator = /** @class */ (function () {
                 else if (metaType == 'array') {
                     if (value.length > 0) {
                         var firstElem = value[0];
-                        if (firstElem) {
+                        if (firstElem != null) {
                             actualType = this.getArrayElememtType(firstElem, key) + '[]';
                         }
                         else {
@@ -76,9 +76,16 @@ var Generator = /** @class */ (function () {
                     var loc = actualType.indexOf('[');
                     var preStr = actualType.substring(0, loc);
                     var suffixStr = actualType.substring(loc, actualType.length);
-                    interface_t += prefix + key + '?: ' + preStr + '.t' + suffixStr + ';\n';
-                    interface_safe_t += prefix + key + ': ' + preStr + '.safe_t' + suffixStr + ';\n';
-                    interface_safe_func += prefix + 's.' + key + ' = u.' + key + ' == null ? ' + defaultValue + ' : u.' + key + '.map((e:' + preStr + '.t) => { return ' + preStr + '.safe(e) })\n';
+                    if (this.isBasicType(preStr)) {
+                        interface_t += prefix + key + '?: ' + actualType + ';\n';
+                        interface_safe_t += prefix + key + ': ' + actualType + ';\n';
+                        interface_safe_func += prefix + 's.' + key + ' = u.' + key + ' || ' + defaultValue + '\n';
+                    }
+                    else {
+                        interface_t += prefix + key + '?: ' + preStr + '.t' + suffixStr + ';\n';
+                        interface_safe_t += prefix + key + ': ' + preStr + '.safe_t' + suffixStr + ';\n';
+                        interface_safe_func += prefix + 's.' + key + ' = u.' + key + ' == null ? ' + defaultValue + ' : u.' + key + '.map((e:' + preStr + '.t) => { return ' + preStr + '.safe(e) })\n';
+                    }
                 }
                 else {
                     interface_t += prefix + key + '?: ' + actualType + ';\n';
@@ -100,6 +107,12 @@ var Generator = /** @class */ (function () {
         else {
             return '';
         }
+    };
+    Generator.prototype.isBasicType = function (type) {
+        if (type == 'number' || type == 'string') {
+            return true;
+        }
+        return false;
     };
     Generator.prototype.getType = function (value) {
         switch (typeof (value)) {

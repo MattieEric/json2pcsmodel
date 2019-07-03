@@ -65,7 +65,7 @@ export default class Generator {
                 } else if (metaType == 'array') {
                     if (value.length > 0) {
                         const firstElem = value[0]
-                        if (firstElem) {
+                        if (firstElem != null) {
                             actualType = this.getArrayElememtType(firstElem, key) + '[]'
                         } else {
                             actualType = 'null[]'
@@ -82,9 +82,15 @@ export default class Generator {
                     const loc = actualType.indexOf('[')
                     const preStr = actualType.substring(0, loc)
                     const suffixStr = actualType.substring(loc, actualType.length)
-                    interface_t += prefix + key + '?: ' + preStr + '.t' + suffixStr + ';\n'
-                    interface_safe_t += prefix + key + ': ' + preStr + '.safe_t' + suffixStr + ';\n'
-                    interface_safe_func += prefix + 's.' + key + ' = u.' + key + ' == null ? ' + defaultValue + ' : u.' + key + '.map((e:' + preStr + '.t) => { return ' + preStr + '.safe(e) })\n'
+                    if (this.isBasicType(preStr)) {
+                        interface_t += prefix + key + '?: ' + actualType + ';\n'
+                        interface_safe_t += prefix + key + ': ' + actualType + ';\n'
+                        interface_safe_func += prefix + 's.' + key + ' = u.' + key + ' || ' + defaultValue + '\n'
+                    } else {
+                        interface_t += prefix + key + '?: ' + preStr + '.t' + suffixStr + ';\n'
+                        interface_safe_t += prefix + key + ': ' + preStr + '.safe_t' + suffixStr + ';\n'
+                        interface_safe_func += prefix + 's.' + key + ' = u.' + key + ' == null ? ' + defaultValue + ' : u.' + key + '.map((e:' + preStr + '.t) => { return ' + preStr + '.safe(e) })\n'
+                    }
                 } else {
                     interface_t += prefix + key + '?: ' + actualType + ';\n'
                     interface_safe_t += prefix + key + ': ' + actualType + ';\n'
@@ -104,6 +110,13 @@ export default class Generator {
         } else {
             return ''
         }
+    }
+
+    isBasicType(type: string): boolean {
+        if (type == 'number' || type == 'string') {
+            return true
+        }
+        return false
     }
 
     getType(value: any): string {
